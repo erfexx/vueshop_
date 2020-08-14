@@ -28,6 +28,24 @@ const routes = [
         "../views/Categories.vue"
       ),
   },
+  {
+    path: "/category/:slug",
+    name: "category",
+    component: () =>
+      import(
+        /* webpackChunkName: "category" */
+        "../views/Category.vue"
+      ),
+  },
+  {
+    path: "/books",
+    name: "books",
+    component: () =>
+      import(
+        /* webpackChunkName: "books" */
+        "../views/Books.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({
