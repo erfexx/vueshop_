@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark extended>
+    <v-app-bar app color="primary" dark v-if="isHome">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>{{appName}}</v-toolbar-title>
       <!-- pemisah konten -->
@@ -23,6 +23,22 @@
         solo-inverted
       ></v-text-field>
     </v-app-bar>
+
+    <v-app-bar app color="primary" dark v-else>
+      <v-btn icon @click.stop="$router.go(-1)">
+        <v-icon>mdi-arrow-left-circle</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn icon to="/about">
+        <v-badge color="orange" overlap>
+          <template v-slot:badge>
+            <span>3</span>
+          </template>
+          <v-icon>mdi-cart</v-icon>
+        </v-badge>
+      </v-btn>
+    </v-app-bar>
+
     <v-card>
       <v-navigation-drawer app v-model="drawer">
         <v-list>
@@ -94,5 +110,10 @@ export default {
     ],
     guest: true,
   }),
+  computed: {
+    isHome() {
+      return this.$route.path === "/";
+    },
+  },
 };
 </script>
