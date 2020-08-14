@@ -29,7 +29,7 @@
       <v-layout wrap>
         <v-flex v-for="(book, index) in books" :key="`book-`+book.id" xs6>
           <v-card :to="'/book/'+ book.slug">
-            <v-img :src="book.cover" class="white--text">
+            <v-img :src="getImage('/books/'+book.cover)" class="white--text">
               <v-card-title class="fill-height align-end" v-text="book.title">{{index}}</v-card-title>
             </v-img>
           </v-card>
@@ -45,35 +45,10 @@ export default {
   components: {},
   data: () => ({
     categories: [],
-    books: [
-      {
-        id: 1,
-        cover: "https://via.placeholder.com/150",
-        title: "Laravel 5.8",
-        slug: "laravel-5-8",
-      },
-      {
-        id: 2,
-        cover: "https://via.placeholder.com/150",
-        title: "Vue 2.6",
-        slug: "vue-2-6",
-      },
-      {
-        id: 3,
-        cover: "https://via.placeholder.com/150",
-        title: "PHP 7.4",
-        slug: "php-7-4",
-      },
-      {
-        id: 4,
-        cover: "https://via.placeholder.com/150",
-        title: "NodeJS 12",
-        slug: "nodejs-12",
-      },
-    ],
+    books: [],
   }),
   created() {
-    console.log("get data categories");
+    console.log("get data random categories");
     this.axios
       .get("/categories/random/2")
       .then((response) => {
@@ -86,15 +61,20 @@ export default {
         let { response } = error;
         console.log(response);
       });
-  },
-  methods: {
-    getImage(image) {
-      if (image != null && image.length > 0) {
-        return process.env.VUE_APP_BACKEND_URL + "/images/" + image;
-      }
+    console.log("get data top books");
+    this.axios
+      .get("/books/top/4")
+      .then((response) => {
+        let { data } = response.data;
+        this.books = data;
 
-      return "/img/unavailable.png";
-    },
+        // console.log(data);
+      })
+      .catch((error) => {
+        let { response } = error;
+        console.log(response);
+      });
   },
+  methods: {},
 };
 </script>
