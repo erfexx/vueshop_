@@ -92,7 +92,7 @@ export default {
       { title: "Home", icon: "mdi-home", route: "/" },
       { title: "About", icon: "mdi-account", route: "/about" },
     ],
-    guest: false,
+    guest: true,
   }),
 };
 </script>

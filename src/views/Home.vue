@@ -11,7 +11,7 @@
       <v-layout wrap>
         <v-flex v-for="(category, index) in categories" :key="`category-`+category.id" xs6>
           <v-card :to="'/category/'+ category.slug">
-            <v-img :src="category.image" class="white--text">
+            <v-img :src="getImage('/categories/'+category.image)" class="white--text">
               <v-card-title class="fill-height align-end" v-text="category.name">{{index}}</v-card-title>
             </v-img>
           </v-card>
@@ -44,20 +44,7 @@ export default {
   name: "Home",
   components: {},
   data: () => ({
-    categories: [
-      {
-        id: 1,
-        image: "https://via.placeholder.com/150",
-        name: "Ekonomi",
-        slug: "ekonomi",
-      },
-      {
-        id: 2,
-        image: "https://via.placeholder.com/150",
-        name: "Agama",
-        slug: "agama",
-      },
-    ],
+    categories: [],
     books: [
       {
         id: 1,
@@ -85,5 +72,29 @@ export default {
       },
     ],
   }),
+  created() {
+    console.log("get data categories");
+    this.axios
+      .get("/categories/random/2")
+      .then((response) => {
+        let { data } = response.data;
+        this.categories = data;
+
+        // console.log(data);
+      })
+      .catch((error) => {
+        let { response } = error;
+        console.log(response);
+      });
+  },
+  methods: {
+    getImage(image) {
+      if (image != null && image.length > 0) {
+        return process.env.VUE_APP_BACKEND_URL + "/images/" + image;
+      }
+
+      return "/img/unavailable.png";
+    },
+  },
 };
 </script>
