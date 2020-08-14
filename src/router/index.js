@@ -46,6 +46,15 @@ const routes = [
         "../views/Books.vue"
       ),
   },
+  {
+    path: "/book/:slug",
+    name: "book",
+    component: () =>
+      import(
+        /* webpackChunkName: "book" */
+        "../views/Book.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({
