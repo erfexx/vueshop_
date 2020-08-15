@@ -76,6 +76,16 @@ const routes = [
       ),
     meta: { auth: true },
   },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () =>
+      import(
+        /* webpackChunkName: "profile" */
+        "../views/Profile.vue"
+      ),
+    meta: { auth: true },
+  },
 ];
 
 const router = new VueRouter({

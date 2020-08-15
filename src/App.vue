@@ -72,15 +72,21 @@
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
+        </v-list>
 
-          <v-list-item v-for="(item, index) in menus" :key="`menu-`+index" :to="item.route">
-            <v-list-item-icon>
+        <v-list shaped>
+          <template v-for="(item, index) in menus">
+            <v-list-item
+              :key="`menu-`+index"
+              :to="item.route"
+              v-if="!item.auth || (item.auth && !guest)"
+            >
               <v-icon left>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
         </v-list>
 
         <template class="pa-2" v-if="!guest" v-slot:append>
@@ -139,7 +145,8 @@ export default {
     drawer: false,
     menus: [
       { title: "Home", icon: "mdi-home", route: "/" },
-      { title: "About", icon: "mdi-account", route: "/about" },
+      { title: "Profile", icon: "mdi-account", route: "/profile", auth: true },
+      { title: "About", icon: "mdi-help-box", route: "/about" },
     ],
     // guest: true,
   }),
