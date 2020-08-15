@@ -44,5 +44,8 @@ export default {
   modules: {},
   getters: {
     carts: (state) => state.carts,
+    count: (state) => {
+      return state.carts.length;
+    },
   },
 };

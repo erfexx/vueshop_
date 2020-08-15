@@ -5,13 +5,18 @@
       <v-toolbar-title>{{appName}}</v-toolbar-title>
       <!-- pemisah konten -->
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-badge color="orange" overlap>
+      <v-btn icon to="/about" v-if="countCart>0">
+        <v-badge color="#E8910F" overlap>
+          <!-- Show Badge Number -->
           <template v-slot:badge>
-            <span>3</span>
+            <span>{{countCart}}</span>
           </template>
+
           <v-icon>mdi-cart</v-icon>
         </v-badge>
+      </v-btn>
+      <v-btn icon to="/about" v-else>
+        <v-icon>mdi-cart</v-icon>
       </v-btn>
       <v-text-field
         slot="extension"
@@ -29,13 +34,19 @@
         <v-icon>mdi-arrow-left-circle</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon to="/about">
-        <v-badge color="orange" overlap>
+
+      <v-btn icon to="/about" v-if="countCart>0">
+        <v-badge color="#E8910F" overlap>
+          <!-- Show Badge Number -->
           <template v-slot:badge>
-            <span>3</span>
+            <span>{{countCart}}</span>
           </template>
+
           <v-icon>mdi-cart</v-icon>
         </v-badge>
+      </v-btn>
+      <v-btn icon to="/about" v-else>
+        <v-icon>mdi-cart</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -101,6 +112,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   components: {
@@ -119,6 +131,9 @@ export default {
     isHome() {
       return this.$route.path === "/";
     },
+    ...mapGetters({
+      countCart: "cart/count",
+    }),
   },
 };
 </script>
