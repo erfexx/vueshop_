@@ -5,7 +5,7 @@
       <v-toolbar-title>{{appName}}</v-toolbar-title>
       <!-- pemisah konten -->
       <v-spacer></v-spacer>
-      <v-btn icon to="/about" v-if="countCart>0">
+      <v-btn icon @click="setDialogComponent('cart')" v-if="countCart>0">
         <v-badge color="#E8910F" overlap>
           <!-- Show Badge Number -->
           <template v-slot:badge>
@@ -15,7 +15,7 @@
           <v-icon>mdi-cart</v-icon>
         </v-badge>
       </v-btn>
-      <v-btn icon to="/about" v-else>
+      <v-btn icon @click="setDialogComponent('cart')" v-else>
         <v-icon>mdi-cart</v-icon>
       </v-btn>
       <v-text-field
@@ -36,7 +36,7 @@
       </v-btn>
       <v-spacer></v-spacer>
 
-      <v-btn icon to="/about" v-if="countCart>0">
+      <v-btn icon @click="setDialogComponent('cart')" v-if="countCart>0">
         <v-badge color="#E8910F" overlap>
           <!-- Show Badge Number -->
           <template v-slot:badge>
@@ -46,7 +46,7 @@
           <v-icon>mdi-cart</v-icon>
         </v-badge>
       </v-btn>
-      <v-btn icon to="/about" v-else>
+      <v-btn icon @click="setDialogComponent('cart')" v-else>
         <v-icon>mdi-cart</v-icon>
       </v-btn>
     </v-app-bar>
@@ -132,6 +132,7 @@ export default {
     Login: () => import(/* webpackChunkName: "login" */ "@/views/Login.vue"),
     Register: () =>
       import(/* webpackChunkName: "register" */ "@/components/Register.vue"),
+    Cart: () => import(/* webpackChunkName: "cart" */ "@/components/Cart.vue"),
   },
   data: () => ({
     // dialog: false,
