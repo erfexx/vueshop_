@@ -5,6 +5,12 @@ import alert from "@/store/alert";
 import auth from "@/store/auth";
 import dialog from "@/store/dialog";
 import region from "@/store/region";
+import VuexPersist from "vuex-persist";
+
+const vuexPersist = new VuexPersist({
+  key: "my-app",
+  storage: localStorage,
+});
 
 Vue.use(Vuex);
 
@@ -40,4 +46,5 @@ export default new Vuex.Store({
     prevUrl: (state) => state.prevUrl,
     payment: (state) => state.payment,
   },
+  plugins: [vuexPersist.plugin],
 });
