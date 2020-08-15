@@ -22,10 +22,10 @@
         slot="extension"
         hide-details
         append-icon="mdi-microphone"
-        flat
+        solo-inverted flat
         label="Search"
         prepend-inner-icon="mdi-magnify"
-        solo-inverted
+        @click="dialog = true"
       ></v-text-field>
     </v-app-bar>
 
@@ -91,7 +91,13 @@
         </template>
       </v-navigation-drawer>
     </v-card>
+
     <alert />
+
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="scaletransition">
+      <search @closed="closeDialog" />
+    </v-dialog>
+
     <v-main>
       <v-container fluid>
         <!-- jika menggunakan vue-router -->
@@ -118,8 +124,11 @@ export default {
   components: {
     Alert: () =>
       import(/* webpackChunkName: "alert" */ "@/components/Alert.vue"),
+    Search: () =>
+      import(/* webpackChunkName: "search" */ "@/components/Search.vue"),
   },
   data: () => ({
+    dialog: false,
     drawer: false,
     menus: [
       { title: "Home", icon: "mdi-home", route: "/" },
@@ -134,6 +143,11 @@ export default {
     ...mapGetters({
       countCart: "cart/count",
     }),
+  },
+  methods: {
+    closeDialog(value) {
+      this.dialog = value;
+    },
   },
 };
 </script>
