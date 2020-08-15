@@ -22,10 +22,11 @@
         slot="extension"
         hide-details
         append-icon="mdi-microphone"
-        solo-inverted flat
+        solo-inverted
+        flat
         label="Search"
         prepend-inner-icon="mdi-magnify"
-        @click="dialog = true"
+        @click="setDialogComponent('search')"
       ></v-text-field>
     </v-app-bar>
 
@@ -54,7 +55,7 @@
       <v-navigation-drawer app v-model="drawer">
         <v-list>
           <div class="pa-2" v-if="guest">
-            <v-btn block color="primary" class="mb-1">
+            <v-btn block color="primary" class="mb-1" @click="setDialogComponent('login')">
               <v-icon left>mdi-lock</v-icon>Login
             </v-btn>
             <v-btn block color="success">
@@ -64,10 +65,10 @@
 
           <v-list-item v-if="!guest">
             <v-list-item-avatar>
-              <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+              <v-img :src="getImage('/users/'+user.avatar)" />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
+              <v-list-item-title>{{ user.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
@@ -94,9 +95,11 @@
 
     <alert />
 
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="scaletransition">
-      <search @closed="closeDialog" />
-    </v-dialog>
+    <keep-alive>
+      <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <component :is="currentComponent" @closed="setDialogStatus"></component>
+      </v-dialog>
+    </keep-alive>
 
     <v-main>
       <v-container fluid>
@@ -118,7 +121,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "App",
   components: {
@@ -126,15 +129,16 @@ export default {
       import(/* webpackChunkName: "alert" */ "@/components/Alert.vue"),
     Search: () =>
       import(/* webpackChunkName: "search" */ "@/components/Search.vue"),
+    Login: () => import(/* webpackChunkName: "login" */ "@/views/Login.vue"),
   },
   data: () => ({
-    dialog: false,
+    // dialog: false,
     drawer: false,
     menus: [
       { title: "Home", icon: "mdi-home", route: "/" },
       { title: "About", icon: "mdi-account", route: "/about" },
     ],
-    guest: true,
+    // guest: true,
   }),
   computed: {
     isHome() {
@@ -142,9 +146,25 @@ export default {
     },
     ...mapGetters({
       countCart: "cart/count",
+      guest: "auth/guest",
+      user: "auth/user",
+      dialogStatus: "dialog/status",
+      currentComponent: "dialog/component",
     }),
+    dialog: {
+      get() {
+        return this.dialogStatus;
+      },
+      set(value) {
+        this.setDialogStatus(value);
+      },
+    },
   },
   methods: {
+    ...mapActions({
+      setDialogStatus: "dialog/setStatus",
+      setDialogComponent: "dialog/setComponent",
+    }),
     closeDialog(value) {
       this.dialog = value;
     },
