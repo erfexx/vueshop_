@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data: () => ({
     book: {}, // objek book
@@ -94,8 +95,13 @@ export default {
         });
     },
     buy() {
-      alert("buy");
+      // alert("buy");
+      console.log("buying book");
+      this.addCart(this.book);
     },
+    ...mapActions({
+      addCart: "cart/add",
+    }),
   },
 };
 </script>
