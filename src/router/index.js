@@ -86,6 +86,16 @@ const routes = [
       ),
     meta: { auth: true },
   },
+  {
+    path: "/my-order",
+    name: "my-order",
+    component: () =>
+      import(
+        /* webpackChunkName: "my-order" */
+        "../views/MyOrder.vue"
+      ),
+    meta: { auth: true },
+  },
 ];
 
 const router = new VueRouter({
