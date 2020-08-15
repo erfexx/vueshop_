@@ -80,6 +80,7 @@
         </template>
       </v-navigation-drawer>
     </v-card>
+    <alert />
     <v-main>
       <v-container fluid>
         <!-- jika menggunakan vue-router -->
@@ -102,6 +103,10 @@
 <script>
 export default {
   name: "App",
+  components: {
+    Alert: () =>
+      import(/* webpackChunkName: "alert" */ "@/components/Alert.vue"),
+  },
   data: () => ({
     drawer: false,
     menus: [

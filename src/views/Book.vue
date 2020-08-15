@@ -98,9 +98,15 @@ export default {
       // alert("buy");
       console.log("buying book");
       this.addCart(this.book);
+      this.setAlert({
+        status: true,
+        color: "success",
+        text: "Added to cart",
+      });
     },
     ...mapActions({
       addCart: "cart/add",
+      setAlert: "alert/set",
     }),
   },
 };
