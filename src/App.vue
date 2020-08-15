@@ -85,7 +85,7 @@
 
         <template class="pa-2" v-if="!guest" v-slot:append>
           <div class="pa-2">
-            <v-btn block color="red" dark>
+            <v-btn block color="red" dark @click="logout">
               <v-icon left>mdi-lock</v-icon>Logout
             </v-btn>
           </div>
@@ -164,7 +164,35 @@ export default {
     ...mapActions({
       setDialogStatus: "dialog/setStatus",
       setDialogComponent: "dialog/setComponent",
+      setAuth: "auth/set", 
+      setAlert: "alert/set",
     }),
+    logout() {
+      let config = {
+        headers: {
+          Authorization: "Bearer " + this.user.api_token,
+        },
+      };
+      this.axios
+        .post("/logout", {}, config)
+        .then((response) => {
+          this.setAuth({}); // kosongkan auth ketika logout
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: "Logout successfully",
+          });
+          console.log(response);
+        })
+        .catch((error) => {
+          let { data } = error.response;
+          this.setAlert({
+            status: true,
+            color: "error",
+            text: data.message,
+          });
+        });
+    },
     closeDialog(value) {
       this.dialog = value;
     },
