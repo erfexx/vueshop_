@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -55,10 +56,41 @@ const routes = [
         "../views/Book.vue"
       ),
   },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: () =>
+      import(
+        /* webpackChunkName: "checkout" */
+        "../views/Checkout.vue"
+      ),
+    meta: { auth: true }, // penandanya ini gans
+  },
 ];
 
 const router = new VueRouter({
   routes,
+  mode: "history",
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.auth)) {
+    if (store.getters["auth/guest"]) {
+      store.dispatch("alert/set", {
+        status: true,
+        text: "Login first",
+        color: "error",
+      });
+      // tampilkan form login
+      store.dispatch("setPrevUrl", to.path); // tambahkan ini
+      store.dispatch("dialog/setComponent", "login");
+      store.dispatch("dialog/setStatus", true);
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

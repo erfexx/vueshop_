@@ -9,12 +9,7 @@
     <v-divider></v-divider>
     <v-container fluid>
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-text-field
-          v-model="email"
-          label="E-mail"
-          required
-          append-icon="mdi-email"
-        ></v-text-field>
+        <v-text-field v-model="email" label="E-mail" required append-icon="mdi-email"></v-text-field>
         <v-text-field
           v-model="password"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -62,6 +57,7 @@ export default {
   computed: {
     ...mapGetters({
       user: "auth/user",
+      prevUrl: "prevUrl",
     }),
   },
   methods: {
@@ -86,6 +82,7 @@ export default {
                 color: "success",
                 text: "Login success",
               });
+              if (this.prevUrl.length > 0) this.$router.push(this.prevUrl);
               this.close();
             } else {
               this.setAlert({
