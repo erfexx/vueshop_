@@ -58,7 +58,7 @@
             <v-btn block color="primary" class="mb-1" @click="setDialogComponent('login')">
               <v-icon left>mdi-lock</v-icon>Login
             </v-btn>
-            <v-btn block color="success">
+            <v-btn block color="success" @click="setDialogComponent('register')">
               <v-icon left>mdi-account</v-icon>Register
             </v-btn>
           </div>
@@ -130,6 +130,8 @@ export default {
     Search: () =>
       import(/* webpackChunkName: "search" */ "@/components/Search.vue"),
     Login: () => import(/* webpackChunkName: "login" */ "@/views/Login.vue"),
+    Register: () =>
+      import(/* webpackChunkName: "register" */ "@/components/Register.vue"),
   },
   data: () => ({
     // dialog: false,
@@ -164,7 +166,7 @@ export default {
     ...mapActions({
       setDialogStatus: "dialog/setStatus",
       setDialogComponent: "dialog/setComponent",
-      setAuth: "auth/set", 
+      setAuth: "auth/set",
       setAlert: "alert/set",
     }),
     logout() {
